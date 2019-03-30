@@ -1,0 +1,127 @@
+.header {
+    color: #68FCF8;
+    text-shadow: .2vh .4vh white, -.3vh -.1vh #2090D8;
+    font-size: 4vh;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.body {
+  background: black;
+}
+
+.menu-text {
+  color: #68FCF8;
+  text-shadow: 2px 2px white, -2px -1px #2090D8;
+  text-shadow: .1vh .2vh white, -.1vh -.05vh #2090D8;
+  font-size: 3vh;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Press Start 2P', cursive;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.menu-button {
+  color: #68FCF8;
+  text-shadow: 2px 2px white, -2px -1px #2090D8;
+  text-shadow: .1vh .2vh white, -.1vh -.05vh #2090D8;
+  font-size: 3vh;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Press Start 2P', cursive;
+  background-color: Transparent;
+  background-repeat: no-repeat; border: 1px solid Transparent;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.menu-button:hover {
+  border: 1px solid #68FCF8;
+  box-shadow: .1vh 0px 0px 0px white, 0px .1vh 0px 0px white, -.1vh 0px 0px 0px #2090D8, 0px -.1vh 0px 0px #2090D8;
+}
+
+canvas {
+/*  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;*/
+}
+.canvas {
+  
+  width: 95vh;
+  height: 95vh;
+}
+.gameScreen {
+    background-image: url("resources/background.png");
+    background-size: cover;
+
+}
+
+.gameScreen-wrapper {
+    display: none;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+/*    padding-top: 1vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-bottom: 1vh;*/
+}
+
+.flex-around {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+.menu-wrapper {
+  background-image: url("resources/menu.png");
+  background-size: cover;
+  width: 98vw;
+  height: 98vh;
+}
+
+.sub-menu {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20vh;
+/*    padding-bottom: 30vh;*/
+}
+
+.credits {
+    display: none;
+}
+.controls {
+    display: none;
+}
+.high-scores {
+    display: none;
+}
+
