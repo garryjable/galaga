@@ -12,7 +12,7 @@ MyGame.ship = (function(audio, graphics) {
   let acceleration = .5;
   let turnRate = .1;
   let thrusting = false;
-  let turning = 0;
+  let sliding = 0;
   let lives = 3;
   let dead = false;
   let show = true;
@@ -46,42 +46,10 @@ MyGame.ship = (function(audio, graphics) {
   }
 
   function update(elapsedTime) {
-    if (this.xSpeed > 0) {
-      if (this.xCoord + this.xSpeed > graphics.canvas.width + graphics.buffer) {
-        this.xCoord = 0;
-      } else {
-        this.xCoord = this.xCoord + this.xSpeed;
-      }
-    } else if (this.xSpeed < 0) {
-      if (this.xCoord + this.xSpeed < 0 - graphics.buffer) {
-        this.xCoord = graphics.canvas.width + graphics.buffer
-      } else {
-        this.xCoord = this.xCoord + this.xSpeed;
-      }
-    }
-    if (this.ySpeed > 0) {
-      if (this.yCoord + this.ySpeed > graphics.canvas.height + graphics.buffer) {
-        this.yCoord = 0;
-      } else {
-        this.yCoord = this.yCoord + this.ySpeed;
-      }
-    } else if (this.ySpeed < 0) {
-      if (this.yCoord + this.ySpeed < 0 - graphics.buffer) {
-        this.yCoord = graphics.canvas.height + graphics.buffer
-      } else {
-        this.yCoord = this.yCoord + this.ySpeed;
-      }
-    }
-    if (this.thrusting) {
-      audio.playSound('resources/thruster');
-      this.thrust();
-    } else {
-      audio.pauseSound('resources/thruster');
-    }
-    if (this.turning > 0 ) {
-      this.turnClockwise();
-    } else if (this.turning < 0) {
-      this.turnCounterClockwise();
+    if (this.sliding > 0) {
+      this.slideLeft();
+    } else if (this.sliding < 0) {
+      this.slideRight();
     }
     if (this.dead === true || this.immortal === true) {
       this.updateRespawn(elapsedTime);
@@ -89,58 +57,60 @@ MyGame.ship = (function(audio, graphics) {
     return;
   }
 
-  function turnClockwise(){
+  function slideLeft() {
     if (this.dead === false) {
-      if (this.orientation < graphics.cycle) {
-        this.orientation = this.orientation + this.turnRate;
-      } else {
-        this.orientation = this.orientation + this.turnRate - graphics.cycle;
-      }
+      this.xCoord--;
     }
   }
 
-  function turnCounterClockwise() {
+  function slideRight() {
     if (this.dead === false) {
-      if (this.orientation > 0) {
-        this.orientation = this.orientation - this.turnRate;
-      } else {
-        this.orientation = graphics.cycle + this.orientation - this.turnRate;
-      }
+      this.xCoord++;
     }
   }
 
-  function hyperspace(asteroids) {
-    if (this.dead === false) {
-      audio.playSound('resources/hyperspace');
-      let safe = false;
-      let safeDist = 200;
-      let randXCoord = Math.floor(Math.random() * (graphics.canvas.width + 1));
-      let randYCoord = Math.floor(Math.random() * (graphics.canvas.height + 1));
-      let shipLoc = this.getCollisionLoc();
-      while (!safe) {
-        safe = true;
-        for (let j = 0; j < asteroids.length; j++) {
-          let xDistAst = Math.abs(randXCoord - asteroids[j].xCoord);
-          let yDistAst = Math.abs(randYCoord - asteroids[j].yCoord);
-          let distanceAst = Math.sqrt(xDistAst**2 + yDistAst**2);
-          if (shipLoc.radius + asteroids[j].radius + distanceAst <= safeDist) {
-            safe = false;
-          }
-        }
-        if (safe === true) {
-          this.xCoord = randXCoord;
-          this.yCoord = randYCoord;
-          this.orientation = Math.random() * (graphics.cycle);
-          this.xSpeed = 0;
-          this.ySpeed = 0;
-        } else {
-          randXCoord = Math.floor(Math.random() * (graphics.canvas.width + 1));
-          randYCoord = Math.floor(Math.random() * (graphics.canvas.height + 1));
-        }
-      }
-    }
-    return;
-  }
+//  function turnCounterClockwise() {
+//    if (this.dead === false) {
+//      if (this.orientation > 0) {
+//        this.orientation = this.orientation - this.turnRate;
+//      } else {
+//        this.orientation = graphics.cycle + this.orientation - this.turnRate;
+//      }
+//    }
+//  }
+
+//  function hyperspace(asteroids) {
+//    if (this.dead === false) {
+//      audio.playSound('resources/hyperspace');
+//      let safe = false;
+//      let safeDist = 200;
+//      let randXCoord = Math.floor(Math.random() * (graphics.canvas.width + 1));
+//      let randYCoord = Math.floor(Math.random() * (graphics.canvas.height + 1));
+//      let shipLoc = this.getCollisionLoc();
+//      while (!safe) {
+//        safe = true;
+//        for (let j = 0; j < asteroids.length; j++) {
+//          let xDistAst = Math.abs(randXCoord - asteroids[j].xCoord);
+//          let yDistAst = Math.abs(randYCoord - asteroids[j].yCoord);
+//          let distanceAst = Math.sqrt(xDistAst**2 + yDistAst**2);
+//          if (shipLoc.radius + asteroids[j].radius + distanceAst <= safeDist) {
+//            safe = false;
+//          }
+//        }
+//        if (safe === true) {
+//          this.xCoord = randXCoord;
+//          this.yCoord = randYCoord;
+//          this.orientation = Math.random() * (graphics.cycle);
+//          this.xSpeed = 0;
+//          this.ySpeed = 0;
+//        } else {
+//          randXCoord = Math.floor(Math.random() * (graphics.canvas.width + 1));
+//          randYCoord = Math.floor(Math.random() * (graphics.canvas.height + 1));
+//        }
+//      }
+//    }
+//    return;
+//  }
 
   function fire(elapsedTime) {
     if (elapsedTime - this.lastShot >= this.fireRate && this.dead === false) {
@@ -157,12 +127,12 @@ MyGame.ship = (function(audio, graphics) {
     return false;
   }
 
-  function thrust() {
-    if (this.dead === false) {
-      this.xSpeed = this.xSpeed + Math.sin(this.orientation) * this.acceleration;
-      this.ySpeed = this.ySpeed - Math.cos(this.orientation) * this.acceleration;
-    }
-  }
+//  function thrust() {
+//    if (this.dead === false) {
+//      this.xSpeed = this.xSpeed + Math.sin(this.orientation) * this.acceleration;
+//      this.ySpeed = this.ySpeed - Math.cos(this.orientation) * this.acceleration;
+//    }
+//  }
 
   function handleCollisions(results, elapsedTime) {
     if (results.hit === true) {
@@ -199,14 +169,16 @@ MyGame.ship = (function(audio, graphics) {
   let api = {
       getShipSpec: getShipSpec,
       update: update,
-      turnClockwise: turnClockwise,
-      turnCounterClockwise: turnCounterClockwise,
+      slideRight: slideRight,
+      slideLeft: slideLeft,
+//      turnClockwise: turnClockwise,
+//      turnCounterClockwise: turnCounterClockwise,
       getCollisionLoc: getCollisionLoc,
       handleCollisions: handleCollisions,
-      hyperspace: hyperspace,
+//      hyperspace: hyperspace,
       updateRespawn: updateRespawn,
       fire: fire,
-      thrust: thrust,
+//      thrust: thrust,
   };
 
   Object.defineProperty(api, 'width', {
@@ -272,8 +244,8 @@ MyGame.ship = (function(audio, graphics) {
       configurable: false
   });
 
-  Object.defineProperty(api, 'turning', {
-      value: turning,
+  Object.defineProperty(api, 'sliding', {
+      value: sliding,
       writable: true,
       enumerable: true,
       configurable: false
