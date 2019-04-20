@@ -5,13 +5,12 @@ MyGame.ship = (function(audio, graphics) {
   let width = 75;
   let height = 75;
   let xCoord = graphics.canvas.width / 2;
-  let yCoord = graphics.canvas.height / 2;
+  let yCoord = graphics.canvas.height - height;
   let orientation = 0;
   let xSpeed = 0;
   let ySpeed = 0;
   let acceleration = .5;
   let turnRate = .1;
-  let thrusting = false;
   let sliding = 0;
   let lives = 3;
   let dead = false;
@@ -22,6 +21,7 @@ MyGame.ship = (function(audio, graphics) {
   let lastFlicker = 0;
   let immortalTime = 6000;
   let lastDeath = 0;
+  let numShips = 2;
 
   function getShipSpec() {
     let shipSpecTexture = {
@@ -31,6 +31,7 @@ MyGame.ship = (function(audio, graphics) {
       height: height,
       show: this.show,
       rotation: this.orientation,
+      numShips: this.numShips,
     };
     return shipSpecTexture;
   }
@@ -59,58 +60,15 @@ MyGame.ship = (function(audio, graphics) {
 
   function slideLeft() {
     if (this.dead === false) {
-      this.xCoord--;
+      this.xCoord -= 5;
     }
   }
 
   function slideRight() {
     if (this.dead === false) {
-      this.xCoord++;
+      this.xCoord += 5;
     }
   }
-
-//  function turnCounterClockwise() {
-//    if (this.dead === false) {
-//      if (this.orientation > 0) {
-//        this.orientation = this.orientation - this.turnRate;
-//      } else {
-//        this.orientation = graphics.cycle + this.orientation - this.turnRate;
-//      }
-//    }
-//  }
-
-//  function hyperspace(asteroids) {
-//    if (this.dead === false) {
-//      audio.playSound('resources/hyperspace');
-//      let safe = false;
-//      let safeDist = 200;
-//      let randXCoord = Math.floor(Math.random() * (graphics.canvas.width + 1));
-//      let randYCoord = Math.floor(Math.random() * (graphics.canvas.height + 1));
-//      let shipLoc = this.getCollisionLoc();
-//      while (!safe) {
-//        safe = true;
-//        for (let j = 0; j < asteroids.length; j++) {
-//          let xDistAst = Math.abs(randXCoord - asteroids[j].xCoord);
-//          let yDistAst = Math.abs(randYCoord - asteroids[j].yCoord);
-//          let distanceAst = Math.sqrt(xDistAst**2 + yDistAst**2);
-//          if (shipLoc.radius + asteroids[j].radius + distanceAst <= safeDist) {
-//            safe = false;
-//          }
-//        }
-//        if (safe === true) {
-//          this.xCoord = randXCoord;
-//          this.yCoord = randYCoord;
-//          this.orientation = Math.random() * (graphics.cycle);
-//          this.xSpeed = 0;
-//          this.ySpeed = 0;
-//        } else {
-//          randXCoord = Math.floor(Math.random() * (graphics.canvas.width + 1));
-//          randYCoord = Math.floor(Math.random() * (graphics.canvas.height + 1));
-//        }
-//      }
-//    }
-//    return;
-//  }
 
   function fire(elapsedTime) {
     if (elapsedTime - this.lastShot >= this.fireRate && this.dead === false) {
@@ -126,13 +84,6 @@ MyGame.ship = (function(audio, graphics) {
     }
     return false;
   }
-
-//  function thrust() {
-//    if (this.dead === false) {
-//      this.xSpeed = this.xSpeed + Math.sin(this.orientation) * this.acceleration;
-//      this.ySpeed = this.ySpeed - Math.cos(this.orientation) * this.acceleration;
-//    }
-//  }
 
   function handleCollisions(results, elapsedTime) {
     if (results.hit === true) {
@@ -171,14 +122,10 @@ MyGame.ship = (function(audio, graphics) {
       update: update,
       slideRight: slideRight,
       slideLeft: slideLeft,
-//      turnClockwise: turnClockwise,
-//      turnCounterClockwise: turnCounterClockwise,
       getCollisionLoc: getCollisionLoc,
       handleCollisions: handleCollisions,
-//      hyperspace: hyperspace,
       updateRespawn: updateRespawn,
       fire: fire,
-//      thrust: thrust,
   };
 
   Object.defineProperty(api, 'width', {
@@ -233,13 +180,6 @@ MyGame.ship = (function(audio, graphics) {
   Object.defineProperty(api, 'turnRate', {
       value: turnRate,
       writable: false,
-      enumerable: true,
-      configurable: false
-  });
-
-  Object.defineProperty(api, 'thrusting', {
-      value: thrusting,
-      writable: true,
       enumerable: true,
       configurable: false
   });
@@ -330,6 +270,13 @@ MyGame.ship = (function(audio, graphics) {
 
   Object.defineProperty(api, 'lastDeath', {
       value: lastDeath,
+      writable: true,
+      enumerable: true,
+      configurable: false
+  });
+
+  Object.defineProperty(api, 'numShips', {
+      value: numShips,
       writable: true,
       enumerable: true,
       configurable: false

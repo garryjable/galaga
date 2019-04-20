@@ -112,7 +112,7 @@ MyGame.graphics = (function() {
        return api;
     }
 
-    function lasersTexture(specs) {
+    function fliesTexture(specs) {
         let ready = false;
         let image = new Image();
         let specList = specs.specList;
@@ -142,7 +142,7 @@ MyGame.graphics = (function() {
             }
         }
 
-        function renderLasers(newSpecs) {
+        function renderFlies(newSpecs) {
           this.specList = [];
           for (let i = 0; i < newSpecs.specList.length; i++) {
            this.specList.push(newSpecs.specList[i]);
@@ -151,7 +151,7 @@ MyGame.graphics = (function() {
 
         let api = {
             draw: draw,
-            renderLasers: renderLasers,
+            renderFlies: renderFlies,
             specList: specList,
         };
 
@@ -163,144 +163,6 @@ MyGame.graphics = (function() {
        });
 
        return api;
-    }
-
-    function saucersTexture(specs) {
-        let ready = false;
-        let imageSmall = new Image();
-        let imageBig = new Image();
-        let specList = specs.specList;
-
-        imageSmall.onload = function() {
-            ready = true;
-        };
-        imageBig.onload = function() {
-            ready = true;
-        };
-        imageSmall.src = specs.imageSmallSrc;
-        imageBig.src = specs.imageBigSrc;
-
-        function draw() {
-            if (ready) {
-                for (let i = 0; i < this.specList.length; i++) {
-                  context.save();
-
-                  context.translate(this.specList[i].center.x, this.specList[i].center.y);
-                  context.rotate(this.specList[i].rotation);
-                  context.translate(-this.specList[i].center.x, -this.specList[i].center.y);
-
-                  if (this.specList[i].size === 1) {
-                  context.drawImage(
-                      imageBig,
-                      this.specList[i].center.x - this.specList[i].width / 2,
-                      this.specList[i].center.y - this.specList[i].height / 2,
-                      this.specList[i].width, this.specList[i].height);
-                  } else if (this.specList[i].size === 2) {
-                  context.drawImage(
-                      imageSmall,
-                      this.specList[i].center.x - this.specList[i].width / 2,
-                      this.specList[i].center.y - this.specList[i].height / 2,
-                      this.specList[i].width, this.specList[i].height);
-                  }
-                  context.restore();
-                }
-            }
-        }
-
-        function renderSaucer(newSpecs) {
-          this.specList = [];
-          for (let i = 0; i < newSpecs.specList.length; i++) {
-           this.specList.push(newSpecs.specList[i]);
-          }
-        }
-
-        let api = {
-            draw: draw,
-            renderSaucer: renderSaucer,
-            specList: specList,
-        };
-
-       Object.defineProperty(api, 'specList', {
-           value: specList,
-           writable: true,
-           enumerable: true,
-           configurable: false
-       });
-
-
-        return api;
-    }
-
-    function asteroidsTexture(specs) {
-        let ready = false;
-        let imageLarge = new Image();
-        let imageMedium = new Image();
-        let imageSmall = new Image();
-        let specList = specs.specList;
-
-        imageLarge.onload = function() {
-            ready = true;
-        };
-        imageMedium.onload = function() {
-            ready = true;
-        };
-        imageSmall.onload = function() {
-            ready = true;
-        };
-
-        imageLarge.src = specs.imageLargeSrc;
-        imageMedium.src = specs.imageMediumSrc;
-        imageSmall.src = specs.imageSmallSrc;
-
-        function draw() {
-            if (ready) {
-                for (let i = 0; i < this.specList.length; i++) {
-                  context.save();
-
-                  context.translate(this.specList[i].center.x, this.specList[i].center.y);
-                  context.rotate(this.specList[i].rotation);
-                  context.translate(-this.specList[i].center.x, -this.specList[i].center.y);
-                  let image;
-                  if (this.specList[i].size === 3) {
-                    image = imageLarge;
-                  } else if (this.specList[i].size === 2) {
-                    image = imageMedium;
-                  } else if (this.specList[i].size === 1) {
-                    image = imageSmall;
-                  }
-
-                  context.drawImage(
-                      image,
-                      this.specList[i].center.x - this.specList[i].width / 2,
-                      this.specList[i].center.y - this.specList[i].height / 2,
-                      this.specList[i].width, this.specList[i].height);
-
-                  context.restore();
-                }
-            }
-        }
-
-        function renderAsteroids(newSpecs) {
-          this.specList = [];
-          for (let i = 0; i < newSpecs.specList.length; i++) {
-           this.specList.push(newSpecs.specList[i]);
-          }
-        }
-
-        let api = {
-            draw: draw,
-            renderAsteroids: renderAsteroids,
-            specList: specList,
-        };
-
-       Object.defineProperty(api, 'specList', {
-           value: specList,
-           writable: true,
-           enumerable: true,
-           configurable: false
-       });
-
-        return api;
     }
 
     function particlesTexture(specs) {
@@ -378,10 +240,8 @@ MyGame.graphics = (function() {
     let api = {
         clear: clear,
         shipTexture: shipTexture,
-        lasersTexture: lasersTexture,
         rocketsTexture: rocketsTexture,
-        saucersTexture: saucersTexture,
-        asteroidsTexture: asteroidsTexture,
+        fliesTexture: fliesTexture,
         particlesTexture: particlesTexture,
         refresh: refresh
     };

@@ -1,38 +1,28 @@
 MyGame.collisions = (function() {
     'use strict';
-    function checkCollisions(rockets, asteroids, ship, saucers) {
-      for (let j = 0; j < asteroids.length; j++) {
-        let xDistAstShip = Math.abs(ship.xCoord - asteroids[j].xCoord);
-        let yDistAstShip = Math.abs(ship.yCoord - asteroids[j].yCoord);
-        let distanceAstShip = Math.sqrt(xDistAstShip**2 + yDistAstShip**2);
-        if (ship.radius + asteroids[j].radius >= distanceAstShip) {
+    function checkCollisions(rockets, ship, flies) {
+      for (let j = 0; j < rockets.length; j++) {
+        let xDistRocketShip = Math.abs(ship.xCoord - rockets[j].xCoord);
+        let yDistRocketShip = Math.abs(ship.yCoord - rockets[j].yCoord);
+        let distanceRocketShip = Math.sqrt(xDistRocketShip**2 + yDistRocketShip**2);
+        if (ship.radius + rockets[j].radius >= distanceRocketShip) {
           if (ship.immortal === false) {
             ship.hit = true;
           }
         }
-        for (let i = 0; i < rockets.length; i++) {
-          let xDistAstRoc = Math.abs(rockets[i].xCoord - asteroids[j].xCoord);
-          let yDistAstRoc = Math.abs(rockets[i].yCoord - asteroids[j].yCoord);
-          let distanceAstRoc = Math.sqrt(xDistAstRoc**2 + yDistAstRoc**2);
-          if (rockets[i].radius + asteroids[j].radius >= distanceAstRoc) {
-            asteroids[j].hit = true;
-            rockets[i].hit = true;
-          } 
-        for (let k = 0; k < saucers.length; k++) {
-          let xDistSauRoc = Math.abs(rockets[i].xCoord - saucers[k].xCoord);
-          let yDistSauRoc = Math.abs(rockets[i].yCoord - saucers[k].yCoord);
-          let distanceSauRoc = Math.sqrt(xDistSauRoc**2 + yDistSauRoc**2);
-          if (rockets[i].radius + saucers[k].radius >= distanceSauRoc) {
-            saucers[k].hit = true;
-            rockets[i].hit = true;
+        for (let i = 0; i < flies.length; i++) {
+          let xDistRocketFly = Math.abs(flies[i].xCoord - rockets[j].xCoord);
+          let yDistRocketFly = Math.abs(flies[i].yCoord - rockets[j].yCoord);
+          let distanceRocketFly = Math.sqrt(xDistRocketFly**2 + yDistRocketFly**2);
+          if (flies[i].radius + rockets[j].radius >= distanceRocketFly) {
+            flies[i].hit = true;
+            rockets[j].hit = true;
           }
-        }
         }
       }
       return {
         rockets: rockets,
-        asteroids: asteroids,
-        saucers: saucers,
+        flies: flies,
         ship: ship,
       };
     }

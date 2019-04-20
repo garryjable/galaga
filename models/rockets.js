@@ -7,7 +7,7 @@ MyGame.rockets = (function(graphics) {
     let newRocketList = [];
     for (let i = 0; i < this.rocketList.length; i++) {
       this.rocketList[i].update(graphics.canvas.width, graphics.canvas.height);
-      if (this.rocketList[i].age * 30 < graphics.canvas.width * .60 && this.rocketList[i].hit !== true) {
+      if (this.rocketList[i].age * 30 < graphics.canvas.width && this.rocketList[i].hit !== true) {
         newRocketList.push(this.rocketList[i]);
       }
     }

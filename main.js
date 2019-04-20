@@ -1,4 +1,4 @@
-MyGame.main = (function(graphics, /*collisions,*/ ship, rockets/*, saucers, audio*/) {
+MyGame.main = (function(graphics, collisions, ship, enemySpawner, rockets, flies,/*, saucers, audio*/) {
   var currentScore = 0;
   var highScores = [];
   var lastMoveStamp = 0;
@@ -14,11 +14,9 @@ MyGame.main = (function(graphics, /*collisions,*/ ship, rockets/*, saucers, audi
   var shipTexture = graphics.shipTexture(shipSpec);
   var rocketsSpecs = rockets.getRocketsSpecs()
   var rocketsTexture = graphics.rocketsTexture(rocketsSpecs);
+  var fliesSpecs = flies.getFliesSpecs()
+  var fliesTexture = graphics.fliesTexture(fliesSpecs);
 
-/*
-  var saucersSpecs = saucers.getSaucersSpecs()
-  var saucersTexture = graphics.saucersTexture(saucersSpecs);
- */
 
   performance.now();
   requestAnimationFrame(gameLoop);
@@ -47,9 +45,9 @@ MyGame.main = (function(graphics, /*collisions,*/ ship, rockets/*, saucers, audi
   function update(elapsedTime) {
     for (let i = 0; i < nextInput.length; i++) {
       if (nextInput[i] === 'startSlideLeft') {
-        ship.sliding = -1;
-      } else if (nextInput[i] === 'startSlideRight') {
         ship.sliding = 1;
+      } else if (nextInput[i] === 'startSlideRight') {
+        ship.sliding = -1;
       } else if (nextInput[i] === 'stopSlide') {
         ship.sliding = 0;
       } else if (nextInput[i] === 'fire') {
@@ -61,19 +59,24 @@ MyGame.main = (function(graphics, /*collisions,*/ ship, rockets/*, saucers, audi
     }
     if (levelComplete === true) {
         levelComplete = false;
+        enemySpawner.reset(10);
 //  HERE SPAWN THER BUTTERS
-//       let asteroidParams = asteroids.spawn(level, 3);
-//        asteroids.addAsteroids(asteroidParams);
     }
   }
-
-    rockets.update();
+  let flyParams = enemySpawner.spawnFly(elapsedTime);
+  if (flyParams !== false) {
+      let fly = flies.createFly(flyParams);
+      flies.addFly(fly);
+  }
+  rockets.update();
+  flies.update();
 //    saucers.update();
-//    let results = collisions.checkCollisions(rockets.getCollisionList(), ship.getCollisionLoc(), saucers.getCollisionList());
-//    rockets.handleCollisions(results.rockets);
+  let results = collisions.checkCollisions(rockets.getCollisionList(), ship.getCollisionLoc(), flies.getCollisionList());
+  rockets.handleCollisions(results.rockets);
+  flies.handleCollisions(results.flies);
 //    saucers.handleCollisions(results.saucers);
 //    ship.handleCollisions(results.ship, elapsedTime);
-    ship.update(elapsedTime);
+  ship.update(elapsedTime);
   }
 
   function render() {
@@ -82,9 +85,9 @@ MyGame.main = (function(graphics, /*collisions,*/ ship, rockets/*, saucers, audi
     rocketsSpecs = rockets.getRocketsSpecs();
     rocketsTexture.renderRockets(rocketsSpecs);
     rocketsTexture.draw();
-//    saucersSpecs = saucers.getSaucersSpecs();
-//    saucersTexture.renderSaucer(saucersSpecs);
-//    saucersTexture.draw();
+    fliesSpecs = flies.getFliesSpecs();
+    fliesTexture.renderFlies(fliesSpecs);
+    fliesTexture.draw();
     shipSpec = ship.getShipSpec();
     shipTexture.renderShip(shipSpec);
     shipTexture.draw();
@@ -113,4 +116,4 @@ MyGame.main = (function(graphics, /*collisions,*/ ship, rockets/*, saucers, audi
   document.onkeydown = startInput;
   document.onkeyup = stopInput;
 
-}(MyGame.graphics,/* MyGame.particles,*/ /*MyGame.collisions,*/ MyGame.ship, MyGame.rockets/*, MyGame.saucers, MyGame.audio*/));
+}(MyGame.graphics,/* MyGame.particles,*/ MyGame.collisions, MyGame.ship, MyGame.enemySpawner, MyGame.rockets, MyGame.flies/*, MyGame.saucers, MyGame.audio*/));

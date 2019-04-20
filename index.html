@@ -11,6 +11,17 @@
     <div id='gameScreen-wrapper' class='gameScreen-wrapper'>
     <div id='gameScreen' class='gameScreen'>
       <canvas id='canvas' width="1500" height="1500" class='canvas'></canvas>
+      <div class='hud'>
+        <div>
+          fuel : <span id='fuel'>20.00</span> s
+        </div>
+        <div>
+          speed: <span id='speed'></span> m/s
+        </div>
+        <div>
+          angle: <span id='angle'></span> rad
+        </div>
+      </div>
     </div>
     </div>
     <div id='title' class='menu-wrapper'>
@@ -64,9 +75,9 @@
     <script src="menuManager.js" type="text/javascript"></script>
     <script src="models/lasers.js" type="text/javascript"></script>
     <script src="models/rockets.js" type="text/javascript"></script>
-    <script src="models/asteroids.js" type="text/javascript"></script>
-    <script src="models/saucers.js" type="text/javascript"></script>
+    <script src="models/flies.js" type="text/javascript"></script>
     <script src="models/ship.js" type="text/javascript"></script>
+    <script src="enemySpawner.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
   </body>
 </html>
