@@ -53,8 +53,10 @@ MyGame.main = (function(graphics, collisions, ship, enemySpawner, rockets, flies
       } else if (nextInput[i] === 'fire') {
         let rocketParams = ship.fire(elapsedTime);
         if (rocketParams !== false) {
-            let rocket = rockets.createRocket(rocketParams);
+          for (let j = 0; j < rocketParams.length; j++) {
+            let rocket = rockets.createRocket(rocketParams[j]);
             rockets.addRocket(rocket);
+          }
         }
     }
     if (levelComplete === true) {

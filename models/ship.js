@@ -71,16 +71,20 @@ MyGame.ship = (function(audio, graphics) {
   }
 
   function fire(elapsedTime) {
+    let rocketList = [];
     if (elapsedTime - this.lastShot >= this.fireRate && this.dead === false) {
       audio.playSound('resources/rocket');
       this.lastShot = elapsedTime;
-      let rocketParams = {
-        center: {x: this.xCoord, y: this.yCoord},
-        orientation: this.orientation,
-        xSpeed: this.xSpeed,
-        ySpeed: this.ySpeed,
-      };
-      return rocketParams;
+      for ( let i = 0; i < this.numShips; i++ ) {
+        let rocketParams = {
+          center: {x: this.xCoord + i * this.width, y: this.yCoord},
+          orientation: this.orientation,
+          xSpeed: this.xSpeed,
+          ySpeed: this.ySpeed,
+        };
+        rocketList.push(rocketParams);
+      }
+      return rocketList
     }
     return false;
   }
