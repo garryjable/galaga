@@ -1,4 +1,4 @@
-MyGame.main = (function(graphics, collisions, ship, enemySpawner, rockets, flies,/*, saucers, audio*/) {
+MyGame.main = (function(graphics, collisions, ship, enemySpawner, rockets, flies, audio) {
   var currentScore = 0;
   var highScores = [];
   var lastMoveStamp = 0;
@@ -118,4 +118,4 @@ MyGame.main = (function(graphics, collisions, ship, enemySpawner, rockets, flies
   document.onkeydown = startInput;
   document.onkeyup = stopInput;
 
-}(MyGame.graphics,/* MyGame.particles,*/ MyGame.collisions, MyGame.ship, MyGame.enemySpawner, MyGame.rockets, MyGame.flies/*, MyGame.saucers, MyGame.audio*/));
+}(MyGame.graphics,/* MyGame.particles,*/ MyGame.collisions, MyGame.ship, MyGame.enemySpawner, MyGame.rockets, MyGame.flies, MyGame.audio));

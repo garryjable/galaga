@@ -37,13 +37,17 @@ MyGame.ship = (function(audio, graphics) {
   }
 
   function getCollisionLoc() {
-    let shipCoord = {
-      xCoord: this.xCoord,
-      yCoord: this.yCoord,
-      immortal: this.immortal,
-      radius: this.width / 2,
+    let collisionList = [];
+    for ( let i = 0; i < this.numShips; i++) {
+      let shipCoord = {
+        xCoord: this.xCoord + i * this.width,
+        yCoord: this.yCoord,
+        immortal: this.immortal,
+        radius: this.width / 2,
+      }
+      collisionList.push(shipCoord);
     }
-    return shipCoord;
+    return collisionList;
   }
 
   function update(elapsedTime) {
@@ -60,13 +64,13 @@ MyGame.ship = (function(audio, graphics) {
 
   function slideLeft() {
     if (this.dead === false) {
-      this.xCoord -= 5;
+      this.xCoord -= 10;
     }
   }
 
   function slideRight() {
     if (this.dead === false) {
-      this.xCoord += 5;
+      this.xCoord += 10;
     }
   }
 
