@@ -1,0 +1,19 @@
+{
+  "name": "assn5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garryjable/galaga.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/garryjable/galaga/issues"
+  },
+  "homepage": "https://github.com/garryjable/galaga#readme"
+}
