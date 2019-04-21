@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8"/>
-     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Press+Start+2P" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" type="text/css"/>
-  </head>
-
-  <body class='body'>
+<template>
+  <div id="app">
     <div id='gameScreen-wrapper' class='gameScreen-wrapper'>
     <div id='gameScreen' class='gameScreen'>
       <canvas id='canvas' width="1500" height="1500" class='canvas'></canvas>
@@ -67,18 +59,27 @@
         </div>
       </div>
     </div>
-    <script>let MyGame = {};</script>
-    <script src="graphics.js" type="text/javascript"></script>
-    <script src="collisions.js" type="text/javascript"></script>
-    <script src="audio.js" type="text/javascript"></script>
-    <script src="random.js" type="text/javascript"></script>
-    <script src="menuManager.js" type="text/javascript"></script>
-    <script src="models/lasers.js" type="text/javascript"></script>
-    <script src="models/rockets.js" type="text/javascript"></script>
-    <script src="models/flies.js" type="text/javascript"></script>
-    <script src="models/ship.js" type="text/javascript"></script>
-    <script src="enemySpawner.js" type="text/javascript"></script>
-    <script src="main.js" type="text/javascript"></script>
-  </body>
-</html>
+  </div>
+</template>
 
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'app',
+  components: {
+    HelloWorld
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>

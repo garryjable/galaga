@@ -35,11 +35,13 @@ MyGame.graphics = (function() {
                 context.rotate(spec.rotation);
                 context.translate(-spec.center.x, -spec.center.y);
 
+              for ( let i = 0; i < spec.numShips; i++ ) {
                 context.drawImage(
                     image,
-                    spec.center.x - spec.width / 2,
+                    spec.center.x - spec.width / 2 + i * spec.width,
                     spec.center.y - spec.height / 2,
                     spec.width, spec.height);
+              }
 
                 context.restore();
             }
